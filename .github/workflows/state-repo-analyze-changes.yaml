@@ -37,7 +37,11 @@ jobs:
               if(ignoredDirectories.includes(pathComponents[0])) return;
               if(ignoredFiles.includes(pathComponents.at(-1))) return;
 
+              const [kind, tenant, app, file] =  changedFiles;
+
               console.log(`Found changed file: ${f}`)
+
+              console.log("kind: " + kind + " tenant " + tenant + " app " + app  + " file " + file)
             });
 
             const result = {}
