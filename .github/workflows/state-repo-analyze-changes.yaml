@@ -23,6 +23,7 @@ jobs:
         with:
           script: |
             const path = require("path");
+            const fs = require("fs");
 
             const changedFiles = JSON.parse(${{ toJson(steps.calculate_changes.outputs.changed_files) }});
             
@@ -31,7 +32,6 @@ jobs:
 
             changedFiles.forEach( f => {
   
-              console.log(`Processing file: ${f}`)
               const pathComponents = path.normalize(f).split(path.sep)
 
               if(ignoredDirectories.includes(pathComponents[0])) return;
@@ -39,9 +39,15 @@ jobs:
 
               const [kind, tenant, app, file] =  pathComponents;
 
-              console.log(`Found changed file: ${f}`)
+              let env;
 
-              console.log("kind: " + kind + " tenant " + tenant + " app " + app  + " file " + file)
+              if(fs.lstatSync(f).isDirectory()) {
+                env = path.parse(file).name
+              } else {
+                env = file
+              }
+
+              console.log("kind: " + kind + " tenant " + tenant + " app " + app  + " env " + env)
             });
 
             const result = {}
