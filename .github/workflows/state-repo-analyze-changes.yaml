@@ -21,4 +21,4 @@ jobs:
       - name: View context attributes
         uses: actions/github-script@v7
         with:
-          script: console.log(JSON.parse(${{ steps.calculate_changes.outputs.changes}}))
+          script: console.log(${{ steps.calculate_changes.outputs.changes}})
