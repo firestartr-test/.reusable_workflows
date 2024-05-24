@@ -22,9 +22,20 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            const path = require("path");
+
             const changedFiles = JSON.parse(${{ toJson(steps.calculate_changes.outputs.changed_files) }});
+            
+            const ignoredDirectories = [".github", ".docs"]
+
 
             changedFiles.forEach( f => {
+  
+              const pathComponents = path.normalize(f).split(path.sep)
+
+              if(ignoredDirectories.includes(pathComponents[0])) continue;
+              if(ignoredFiles.includes(pathComponents.at(-1))) continue;
+
               console.log(f)
             });
 
