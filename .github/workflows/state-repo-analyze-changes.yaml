@@ -26,8 +26,8 @@ jobs:
 
             const changedFiles = JSON.parse(${{ toJson(steps.calculate_changes.outputs.changed_files) }});
             
-            const ignoredDirectories = [".github", ".docs"]
-
+            const ignoredDirectories = [".github", ".docs"];
+            const ignoredFiles = ["helmfile.yaml"];
 
             changedFiles.forEach( f => {
   
