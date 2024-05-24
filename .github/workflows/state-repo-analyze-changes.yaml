@@ -1,0 +1,22 @@
+name: State repo analyze changes
+on:
+  workflow_call:
+
+jobs:
+  linter-and-validate-release-coherence:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Calculate changes
+        id: calculate_changes
+        uses: dorny/paths-filter@v3
+        with:
+          list-files: json
+          filters: |
+            changed:
+              - '**.yaml'
+              - '**.yml'
+              - '!.github/**'
+      - name: View context attributes
+        uses: actions/github-script@v7
+        with:
+          script: console.log("hi")
