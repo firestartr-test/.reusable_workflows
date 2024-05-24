@@ -33,12 +33,11 @@ jobs:
   
               console.log(`Processing file: ${f}`)
               const pathComponents = path.normalize(f).split(path.sep)
-              console.log(pathComponents)
 
               if(ignoredDirectories.includes(pathComponents[0])) return;
               if(ignoredFiles.includes(pathComponents.at(-1))) return;
 
-              const [kind, tenant, app, file] =  ["a", "b", "c","d", "e"];
+              const [kind, tenant, app, file] =  pathComponents;
 
               console.log(`Found changed file: ${f}`)
 
