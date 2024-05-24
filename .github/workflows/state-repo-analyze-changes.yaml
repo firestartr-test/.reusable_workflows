@@ -22,4 +22,4 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            console.dir( ${{ steps.calculate_changes.outputs.changed.all }}, { depth: null } )
+            console.dir( JSON.parse(${{ steps.calculate_changes.outputs.changed.all }}), { depth: null } )
