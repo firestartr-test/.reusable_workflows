@@ -42,9 +42,9 @@ jobs:
               let env;
 
               if(fs.lstatSync(f).isDirectory()) {
-                env = path.parse(file).name
-              } else {
                 env = file
+              } else {
+                env = path.parse(file).name
               }
 
               console.log("kind: " + kind + " tenant " + tenant + " app " + app  + " env " + env)
