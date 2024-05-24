@@ -33,8 +33,8 @@ jobs:
   
               const pathComponents = path.normalize(f).split(path.sep)
 
-              if(ignoredDirectories.includes(pathComponents[0])) continue;
-              if(ignoredFiles.includes(pathComponents.at(-1))) continue;
+              if(ignoredDirectories.includes(pathComponents[0])) return;
+              if(ignoredFiles.includes(pathComponents.at(-1))) return;
 
               console.log(f)
             });
