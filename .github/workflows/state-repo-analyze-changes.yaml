@@ -56,9 +56,6 @@ jobs:
                 [kind, app, file] = pathComponents;
               }
 
-
-              const [kind, tenant, app, file] =  pathComponents;
-
               let env;
 
               if(fs.lstatSync(f).isDirectory()) {
