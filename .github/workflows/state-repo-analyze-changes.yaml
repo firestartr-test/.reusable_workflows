@@ -87,7 +87,8 @@ jobs:
 
             const result = Object.keys(changedEnvironments).map(key => {
               let newObj = {};
-              newObj[key] = changedEnvironments[key];
+              newObj[name] = key;
+              newObj[changed] = changedEnvironments[key];
               return newObj;
             });
 
