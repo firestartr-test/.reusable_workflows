@@ -50,7 +50,7 @@ jobs:
               if(ignoredFiles.includes(pathComponents.at(-1))) return;
 
               let kind, tenant, app, file;
-              if (${{ inputs.is-deployment }) {
+              if (${{ inputs.is-deployment }}) {
                 [kind, tenant, app, file] = pathComponents;
               } else {
                 [kind, app, file] = pathComponents;
