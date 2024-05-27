@@ -8,6 +8,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
       - name: Calculate changes
         id: calculate_changes
         uses: dorny/paths-filter@v3
