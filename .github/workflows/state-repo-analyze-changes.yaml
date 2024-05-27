@@ -30,6 +30,8 @@ jobs:
             const ignoredDirectories = [".github", ".docs"];
             const ignoredFiles = ["helmfile.yaml"];
 
+            const changedEnvironments = {};
+
             changedFiles.forEach( f => {
   
               const pathComponents = path.normalize(f).split(path.sep)
@@ -42,14 +44,19 @@ jobs:
               let env;
 
               if(fs.lstatSync(f).isDirectory()) {
-                env = file
+                env = file;
               } else {
-                env = path.parse(file).name
+                env = path.parse(file).name;
               }
+              
+              const changedAppInfo = [kind, tenant, app].join("/");
 
-              console.log("kind: " + kind + " tenant " + tenant + " app " + app  + " env " + env)
+              if (!Array.isArray(changedEnvironments[env])) changedEnvironments[env] = [];
+              if (!changedEnvironments[env].includes(changedAppInfo)) obj[key].push(changedAppInfo);
+
+              console.log("kind: " + kind + " tenant " + tenant + " app " + app  + " env " + env);
             });
 
-            const result = {}
+            console.log(changedEnvironments);
 
-            return result;
+            return changedEnvironments;
