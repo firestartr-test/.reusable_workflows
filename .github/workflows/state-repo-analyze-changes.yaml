@@ -33,6 +33,8 @@ jobs:
             const path = require("path");
             const fs = require("fs");
 
+            const isDeployment = ${{ inputs.is-deployment }};
+
             const changedFiles = JSON.parse(${{ toJson(steps.calculate_changes.outputs.changed_files) }});
             
             console.debug(changedFiles);
@@ -50,11 +52,12 @@ jobs:
               if(ignoredFiles.includes(pathComponents.at(-1))) return;
 
               let kind, tenant, app, file;
-              if (${{ inputs.is-deployment }}) {
+              if (isDeployment) {
                 [kind, tenant, app, file] = pathComponents;
               } else {
                 [kind, app, file] = pathComponents;
               }
+
 
               let env;
 
@@ -65,7 +68,7 @@ jobs:
               }
               
               let changedAppInfo;
-              if (is-deployment) {
+              if (isDeployment) {
                 changedAppInfo = [kind, tenant, app].join("/");
               } else {
                 changedAppInfo = [kind, app].join("/");
