@@ -8,10 +8,15 @@ on:
       is-deployment:
         required: true
         type: boolean
-
+    outputs:
+      changes:
+        description: "The first output string"
+        value: ${{ jobs.analyze_changes.outputs.changes }}
 jobs:
-  linter-and-validate-release-coherence:
+  analyze_changes:
     runs-on: ubuntu-22.04
+    outputs:
+      changes: ${{ steps.analyze_changes.outputs.result }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,7 +31,8 @@ jobs:
             changed:
               - '${{ inputs.path }}/**/*.yaml'
               - '${{ inputs.path }}/**/*.yml'
-      - name: View context attributes
+      - name: Analyze files changed
+        id: analyze_changes
         uses: actions/github-script@v7
         with:
           script: |
@@ -37,8 +43,6 @@ jobs:
 
             const changedFiles = JSON.parse(${{ toJson(steps.calculate_changes.outputs.changed_files) }});
             
-            console.debug(changedFiles);
-
             const ignoredDirectories = [".github", ".docs"];
             const ignoredFiles = ["helmfile.yaml"];
 
@@ -79,6 +83,14 @@ jobs:
 
             });
 
-            console.log(changedEnvironments);
+            console.debug(changedEnvironments);
 
-            return changedEnvironments;
+            const result = Object.keys(changedEnvironments).map(key => {
+              let newObj = {};
+              newObj[key] = changedEnvironments[key];
+              return newObj;
+            });
+
+            console.debug(result);
+
+            return result;
