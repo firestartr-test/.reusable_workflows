@@ -85,10 +85,10 @@ jobs:
 
             console.debug(changedEnvironments);
 
-            const result = Object.keys(changedEnvironments).map(key => {
+            const result = Object.keys(changedEnvironments).map(envName => {
               let newObj = {};
-              newObj[name] = key;
-              newObj[changed] = changedEnvironments[key];
+              newObj.name = envName;
+              newObj.changed = changedEnvironments[envName];
               return newObj;
             });
 
