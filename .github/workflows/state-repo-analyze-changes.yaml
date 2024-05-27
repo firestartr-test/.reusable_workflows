@@ -52,7 +52,7 @@ jobs:
               const changedAppInfo = [kind, tenant, app].join("/");
 
               if (!Array.isArray(changedEnvironments[env])) changedEnvironments[env] = [];
-              if (!changedEnvironments[env].includes(changedAppInfo)) obj[key].push(changedAppInfo);
+              if (!changedEnvironments[env].includes(changedAppInfo)) changedEnvironments[env].push(changedAppInfo);
 
               console.log("kind: " + kind + " tenant " + tenant + " app " + app  + " env " + env);
             });
