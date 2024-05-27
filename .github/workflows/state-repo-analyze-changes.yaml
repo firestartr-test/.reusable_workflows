@@ -5,6 +5,9 @@ on:
       path:
         required: true
         type: string
+      isDeployment:
+        required: true
+        type: boolean
 
 jobs:
   linter-and-validate-release-coherence:
@@ -40,11 +43,19 @@ jobs:
             const changedEnvironments = {};
 
             changedFiles.forEach( f => {
-  
+
               const pathComponents = path.normalize(f).split(path.sep)
 
               if(ignoredDirectories.includes(pathComponents[0])) return;
               if(ignoredFiles.includes(pathComponents.at(-1))) return;
+
+              let kind, tenant, app, file;
+              if (${{ inputs.isDeployment }) {
+                [kind, tenant, app, file] = pathComponents;
+              } else {
+                [kind, app, file] = pathComponents;
+              }
+
 
               const [kind, tenant, app, file] =  pathComponents;
 
@@ -56,12 +67,16 @@ jobs:
                 env = path.parse(file).name;
               }
               
-              const changedAppInfo = [kind, tenant, app].join("/");
+              let changedAppInfo;
+              if (isDeployment) {
+                changedAppInfo = [kind, tenant, app].join("/");
+              } else {
+                changedAppInfo = [kind, app].join("/");
+              }
 
               if (!Array.isArray(changedEnvironments[env])) changedEnvironments[env] = [];
               if (!changedEnvironments[env].includes(changedAppInfo)) changedEnvironments[env].push(changedAppInfo);
 
-              console.log("kind: " + kind + " tenant " + tenant + " app " + app  + " env " + env);
             });
 
             console.log(changedEnvironments);
