@@ -1,6 +1,10 @@
 name: State repo analyze changes
 on:
   workflow_call:
+    inputs:
+      path:
+        required: true
+        type: string
 
 jobs:
   linter-and-validate-release-coherence:
@@ -17,8 +21,8 @@ jobs:
           list-files: json
           filters: |
             changed:
-              - '**.yaml'
-              - '**.yml'
+              - '${{ inputs.path }}/**.yaml'
+              - '${{ inputs.path }}/**.yml'
               - '!.github/**'
       - name: View context attributes
         uses: actions/github-script@v7
