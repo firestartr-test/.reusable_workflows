@@ -33,6 +33,8 @@ jobs:
 
             const changedFiles = JSON.parse(${{ toJson(steps.calculate_changes.outputs.changed_files) }});
             
+            console.debug(changedFiles);
+
             const ignoredDirectories = [".github", ".docs"];
             const ignoredFiles = ["helmfile.yaml"];
 
