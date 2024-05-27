@@ -21,8 +21,8 @@ jobs:
           list-files: json
           filters: |
             changed:
-              - '${{ inputs.path }}/**.yaml'
-              - '${{ inputs.path }}/**.yml'
+              - '${{ inputs.path }}/**/*.yaml'
+              - '${{ inputs.path }}/**/*.yml'
       - name: View context attributes
         uses: actions/github-script@v7
         with:
