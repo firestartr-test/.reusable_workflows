@@ -1,0 +1,20 @@
+name: State repo helm
+on:
+  workflow_call:
+    inputs:
+      apply:
+        required: true
+        default: false
+        type: boolean
+jobs:
+  helm:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Login
+        id: login
+        run: |
+          echo 'test'
