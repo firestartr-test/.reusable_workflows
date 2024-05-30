@@ -49,6 +49,13 @@ jobs:
               identifier,
             }
 
+            switch(provider) {
+              case 'azure':
+                if([process.env.AZURE_TENANT_ID, process.env.AZURE_SUBSCRIPTION_ID].includes(undefined)) throw new Error(`Unconfigured provider ${provider}`)
+              default:
+                throw new Error(`Unknown provider: ${provider}`)
+            }
+
             console.log(result);
 
             return result;
