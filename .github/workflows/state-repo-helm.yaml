@@ -30,11 +30,11 @@ jobs:
             const path = require("path");
             const yaml = require('js-yaml');
 
-            console.log(__dirname);
+            const configPath = path.join("${{ github.workspace }}", "${{ inputs.config_file }}")
 
-            console.lo(path.join(__dirname), "${{ inputs.config_file }}");
+            console.log(configPath);
 
-            const config = yaml.load(fs.readFileSync("${{ inputs.config_file }}", 'utf8'));
+            const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
 
             console.log("hi")
       # - name: Setup / Azure Login
