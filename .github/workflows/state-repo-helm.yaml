@@ -5,6 +5,9 @@ on:
       apply:
         required: true
         type: boolean
+      environment:
+        required: true
+        type: string
       config_file:
         required: false
         type: string
@@ -36,7 +39,8 @@ jobs:
 
             const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
 
-            console.log("hi")
+            console.log("This is your config:")
+            console.log(config.environments["${{ inputs.environment }}"])
       # - name: Setup / Azure Login
       #   uses: Azure/login@v2
       #   with:
