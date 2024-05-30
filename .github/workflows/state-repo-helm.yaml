@@ -39,7 +39,7 @@ jobs:
 
             const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
 
-            const configProvider = config.provider;
+            const { provider } = config;
             
             const { cluster_name, identifier } = config.environments["${{ inputs.environment }}"];
 
