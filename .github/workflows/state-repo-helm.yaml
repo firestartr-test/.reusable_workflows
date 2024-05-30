@@ -33,14 +33,26 @@ jobs:
             const path = require("path");
             const yaml = require('js-yaml');
 
-            const configPath = path.join("${{ github.workspace }}", "${{ inputs.config_file }}")
+            const configPath = path.join("${{ github.workspace }}", "${{ inputs.config_file }}");
 
             console.log(configPath);
 
             const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
 
-            console.log("This is your config:")
-            console.log(config.environments["${{ inputs.environment }}"])
+            const configProvider = config.provider;
+            
+            const { cluster_name, identifier } = config.environments["${{ inputs.environment }}"];
+
+            const result = {
+              provider,
+              cluster_name,
+              identifier,
+            }
+
+            console.log(result);
+
+            return result;
+
       # - name: Setup / Azure Login
       #   uses: Azure/login@v2
       #   with:
