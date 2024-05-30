@@ -51,7 +51,9 @@ jobs:
 
             switch(provider) {
               case 'azure':
-                if([process.env.AZURE_TENANT_ID, process.env.AZURE_SUBSCRIPTION_ID].includes(undefined)) throw new Error(`Unconfigured provider ${provider}`)
+                core.exportVariable('AZURE_CLIENT_ID', identifier);
+                core.exportVariable('AZURE_TENANT_ID', config.tenant_id);
+                core.exportVariable('AZURE_SUBSCRIPTION_ID', config.subscription_id);
               default:
                 throw new Error(`Unknown provider: ${provider}`)
             }
@@ -60,10 +62,10 @@ jobs:
 
             return result;
 
-      # - name: Setup / Azure Login
-      #   uses: Azure/login@v2
-      #   with:
-      #     client-id: ${{ env.AZURE_CLIENT_ID }}
-      #     tenant-id: ${{ env.AZURE_TENANT_ID }}
-      #     subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
-      # - name: 
+      - name: Setup / Azure Login
+        uses: Azure/login@v2
+        if: ${{ steps.parse_configu.outputs.result.provider == "azure" }}
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
