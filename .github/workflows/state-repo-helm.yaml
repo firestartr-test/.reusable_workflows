@@ -39,23 +39,24 @@ jobs:
 
             const config = yaml.load(fs.readFileSync(configPath, 'utf8'));
 
-            const { provider } = config;
+            const providerKind = config.provider.kind;
             
             const { cluster_name, identifier } = config.environments["${{ inputs.environment }}"];
 
-            const result = {
-              provider,
-              cluster_name,
-              identifier,
-            }
 
-            switch(provider) {
+            switch(providerKind) {
               case 'azure':
                 core.exportVariable('AZURE_CLIENT_ID', identifier);
                 core.exportVariable('AZURE_TENANT_ID', config.tenant_id);
                 core.exportVariable('AZURE_SUBSCRIPTION_ID', config.subscription_id);
               default:
-                throw new Error(`Unknown provider: ${provider}`)
+                throw new Error(`Unknown provider: ${providerKind}`)
+            }
+
+            const result = {
+              provider: providerKind,
+              cluster_name,
+              identifier,
             }
 
             console.log(result);
