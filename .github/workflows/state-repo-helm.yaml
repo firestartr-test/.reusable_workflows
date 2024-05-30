@@ -8,7 +8,7 @@ on:
       config_file:
         required: false
         type: string
-        default: .github/deployments-config.yaml
+        default: .github/deployments-config.yml
 jobs:
   helm:
     runs-on: ubuntu-22.04
